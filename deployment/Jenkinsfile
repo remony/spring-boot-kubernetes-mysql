@@ -1,5 +1,32 @@
 pipeline {
-    agent any
+    agent {
+      kubernetes {
+  label 'slave-dev'
+            defaultContainer 'jnlp'
+           yaml """
+             apiVersion: v1
+             kind: Pod
+             metadata:
+               labels: 
+                 kube: slave-dev
+             spec:
+               volumes:
+               - name: host-mount
+                 hostPath:
+                   path: /var/run/docker.sock
+               containers:
+               - name: jnlp
+                 image: imperialplugins/jenkins-inbound-agent-dind
+                 tty: true
+                 securityContext:
+                   privileged: true
+                 volumeMounts:
+                   - name: host-mount
+                     mountPath: /var/run/docker.sock
+              
+             """
+}//end of kubernetes
+ }//end of agent
     tools {
         maven 'Maven 3.5.2'
     }
