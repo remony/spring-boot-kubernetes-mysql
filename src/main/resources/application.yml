@@ -1,0 +1,8 @@
+server:
+  servlet:
+    context-path: /api/v1
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:31000/petdb
+#    username: root
+#    password: password
